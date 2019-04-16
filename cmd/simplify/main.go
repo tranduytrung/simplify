@@ -6,7 +6,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/tranduytrung/simplify"
+	"github.com/tranduytrung/simplify/simplify"
 )
 
 var target int
