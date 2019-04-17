@@ -29,10 +29,24 @@ func main() {
 	}
 	fmt.Printf("Input mesh contains %d faces\n", len(mesh.Triangles))
 	fmt.Printf("Simplifying to %d faces\n", int(target))
+	fail := false
 	for len(mesh.Triangles) > target {
-		mesh = mesh.Simplify(target)
+		newMesh := mesh.Simplify(target)
+		if len(mesh.Triangles) == len(newMesh.Triangles) {
+			fail = true
+			break
+		}
+		mesh = newMesh
 	}
-	fmt.Printf("Output mesh contains %d faces\n", len(mesh.Triangles))
+
 	fmt.Printf("Writing %s\n", args[1])
 	mesh.SaveBinarySTL(args[1])
+
+	if fail {
+		fmt.Printf("Cannot simplify to %d, now it is %d faces\n", int(target), len(mesh.Triangles))
+		os.Exit(-1)
+	}
+
+	fmt.Printf("Output mesh contains %d faces\n", len(mesh.Triangles))
+
 }
